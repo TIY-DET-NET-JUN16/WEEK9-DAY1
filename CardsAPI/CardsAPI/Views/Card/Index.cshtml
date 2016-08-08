@@ -1,0 +1,14 @@
+﻿@model CardsAPI.Models.Deck
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<br />
+<h3>Card Dealer</h3>
+
+<p>The current deck id is @Model.deck_id</p>
+<p>You have @Model.remaining cards remaining in the deck</p>
+
+<p><a class="btn btn-default" href="@Url.Action("DealCard", "Card", new { deck_id = @Model.deck_id })">Deal a Card</a></p>
+

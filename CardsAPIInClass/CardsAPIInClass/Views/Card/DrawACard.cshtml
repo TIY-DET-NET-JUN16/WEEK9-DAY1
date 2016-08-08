@@ -1,0 +1,23 @@
+﻿@model CardsAPIInClass.Models.ViewModel
+@{
+    ViewBag.Title = "DrawACard";
+}
+
+<h2>Draw A Card</h2>
+
+<h3>Your Card</h3>
+
+@foreach (var card in Model.cards)
+{
+    <img src="@card.image" />
+}
+
+<br />
+
+<p>You have @Model.remaining cards left</p>
+<br />
+<p>
+    <a class="btn btn-default" href="@Url.Action("DrawACard",
+                                    new { deck_id = Model.deck_id })">Deal a Card</a>
+</p>
+
