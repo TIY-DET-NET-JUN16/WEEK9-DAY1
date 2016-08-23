@@ -16,7 +16,6 @@ namespace CardsAPI.Controllers
         HttpClient client;
         //The URL of the WEB API Service
         string url = "http://deckofcardsapi.com/api/deck/";
-        Deck currentDeck;
 
         public CardController()
         {
@@ -28,20 +27,16 @@ namespace CardsAPI.Controllers
 
         public async Task<ActionResult> Index()
         {
-            if (currentDeck == null || currentDeck.remaining == 0)
+            HttpResponseMessage responseMessage = await client.GetAsync(url + "new/shuffle/?deck_count=1");
+            if (responseMessage.IsSuccessStatusCode)
             {
-                HttpResponseMessage responseMessage = await client.GetAsync(url + "new/shuffle/?deck_count=1");
-                if (responseMessage.IsSuccessStatusCode)
-                {
-                    var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                var responseData = responseMessage.Content.ReadAsStringAsync().Result;
 
-                    currentDeck = JsonConvert.DeserializeObject<Deck>(responseData);
+                Deck currentDeck = JsonConvert.DeserializeObject<Deck>(responseData);
 
-                    return View(currentDeck);
-                }
-                return View("Error");
+                return View(currentDeck);
             }
-            return View(currentDeck);
+            return View("Error");
         }
 
         public async Task<ActionResult> DealCard()
